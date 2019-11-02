@@ -1,0 +1,26 @@
+.leftColumn {
+    position: fixed;
+    width: 200px;
+    height: 100%;
+    background-color: black;
+    padding: 10px;
+    color: white;
+    overflow-y: auto;
+}
+
+.leftColumn__heading {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.leftColumn ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.leftColumn__category {
+    cursor: pointer;
+    width: fit-content;
+    margin-bottom: 2px;
+}
