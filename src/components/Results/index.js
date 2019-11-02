@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import InfiniteScroll from "react-infinite-scroller";
 
 import * as actions from "../../actions";
 import MovieCard from "../MovieCard";
@@ -8,10 +9,19 @@ import "./index.scss";
 
 const mapStateToProps = ({ movies }) => ({
   movies: movies.movies,
+  page: movies.page,
+  totalPages: movies.totalPages,
+  genreId: movies.genreId,
+  query: movies.query,
   loading: movies.loading,
 });
 
 class Results extends Component {
+  loadMoreMovies = () => {
+    const { listMovies, page, query, genreId } = this.props;
+    listMovies({ page: page + 1, query, genreId });
+  };
+
   render() {
     const { movies } = this.props;
 
@@ -19,9 +29,22 @@ class Results extends Component {
     return (
       <main>
         {movies.length > 0 ? (
-          movies.map(movie => <MovieCard movie={movie} />)
+          <InfiniteScroll
+            pageStart={0}
+            loadMore={() => this.loadMoreMovies()}
+            hasMore={true || false}
+            loader={
+              <div className="loader" key={0}>
+                Loading ...
+              </div>
+            }
+          >
+            {movies.map(movie => (
+              <MovieCard movie={movie} />
+            ))}
+          </InfiniteScroll>
         ) : (
-          <h1>Search for a movie or a TV show to start the experience</h1>
+          <h1>Aucune data</h1>
         )}
       </main>
     );
@@ -29,6 +52,7 @@ class Results extends Component {
 }
 
 Results.propTypes = {
+  listMovies: PropTypes.func.isRequired,
   movies: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired,
 };

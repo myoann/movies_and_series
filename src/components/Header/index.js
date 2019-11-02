@@ -16,13 +16,20 @@ const mapStateToProps = ({ movies }) => ({ suggestions: movies.suggestions });
 // input value for every given suggestion.
 const getSuggestionValue = suggestion => suggestion.title || suggestion.name;
 
+const seeMediaDetails = mediaId => {
+  console.log(mediaId);
+};
+
 const renderSuggestion = (suggestion, { query }) => {
   const suggestionText = getSuggestionValue(suggestion);
   const matches = AutosuggestHighlightMatch(suggestionText, query);
   const parts = AutosuggestHighlightParse(suggestionText, matches);
 
   return (
-    <span className="suggestion-content">
+    <span
+      className="suggestion-content"
+      onClick={() => seeMediaDetails(suggestion.id)}
+    >
       <img
         alt={`Poster of ${suggestionText}`}
         src={
@@ -47,10 +54,6 @@ const renderSuggestion = (suggestion, { query }) => {
       </span>
     </span>
   );
-};
-
-const seeMediaDetails = mediaId => {
-  console.log(mediaId);
 };
 
 class Header extends Component {

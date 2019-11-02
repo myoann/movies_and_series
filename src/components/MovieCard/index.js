@@ -5,11 +5,15 @@ import defaultImage from "../../assets/images/default-poster.png";
 import "./index.scss";
 
 class MovieCard extends Component {
+  seeMediaDetails = mediaId => {
+    console.log(mediaId);
+  };
+
   render() {
     const { movie } = this.props;
     console.log(movie);
     return (
-      <div className="movieCard">
+      <div className="movieCard" onClick={() => this.seeMediaDetails(movie.id)}>
         <img
           alt={`Poster of ${movie.title || movie.name}`}
           src={
