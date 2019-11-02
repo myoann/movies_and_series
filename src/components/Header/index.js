@@ -2,22 +2,19 @@ import React, { Component } from "react";
 import Autosuggest from "react-autosuggest";
 import AutosuggestHighlightMatch from "autosuggest-highlight/match";
 import AutosuggestHighlightParse from "autosuggest-highlight/parse";
-import MovieDB from "moviedb";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
+import defaultImage from "../../assets/images/default-poster.png";
+import * as actions from "../../actions";
 import "./index.scss";
-const mdb = MovieDB("92b418e837b833be308bbfb1fb2aca1e");
+
+const mapStateToProps = ({ movies }) => ({ suggestions: movies.suggestions });
 
 // When suggestion is clicked, Autosuggest needs to populate the input
 // based on the clicked suggestion. Teach Autosuggest how to calculate the
 // input value for every given suggestion.
 const getSuggestionValue = suggestion => suggestion.title || suggestion.name;
-
-// Use your imagination to render suggestions.
-/*const renderSuggestion = suggestion => (
-  <div onClick={() => seeMediaDetails(suggestion.id)}>
-    {getSuggestionValue(suggestion)}
-  </div>
-);*/
 
 const renderSuggestion = (suggestion, { query }) => {
   const suggestionText = getSuggestionValue(suggestion);
@@ -28,7 +25,11 @@ const renderSuggestion = (suggestion, { query }) => {
     <span className="suggestion-content">
       <img
         alt={`Poster of ${suggestionText}`}
-        src={`https://image.tmdb.org/t/p/w92/${suggestion.poster_path}`}
+        src={
+          suggestion.poster_path
+            ? `https://image.tmdb.org/t/p/w92/${suggestion.poster_path}`
+            : defaultImage
+        }
       />
       <span className="name">
         {parts.map((part, index) => {
@@ -58,31 +59,35 @@ class Header extends Component {
     suggestions: [],
   };
 
-  onChange = (event, { newValue }) => {
-    this.setState({
-      value: newValue,
-    });
+  componentWillReceiveProps = nextProps => {
+    this.setState({ suggestions: nextProps.suggestions });
+  };
+
+  onChange = (event, { newValue, method }) => {
+    this.setState({ value: newValue });
+  };
+
+  onSubmit = e => {
+    e.preventDefault();
+    const { listMovies } = this.props;
+    const { value } = this.state;
+
+    listMovies({ query: value });
   };
 
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.
-  onSuggestionsFetchRequested = ({ value }) => {
+  onSuggestionsFetchRequested = async ({ value }) => {
     if (value.length >= 3) {
-      mdb.searchMulti({ query: value }, (err, res) => {
-        const mediasOnly = res.results.filter(r =>
-          ["movie", "tv"].includes(r.media_type),
-        );
+      const { listMovies } = this.props;
 
-        this.setState({ suggestions: mediasOnly });
-      });
+      listMovies({ query: value, isSuggestionOnly: true });
     }
   };
 
   // Autosuggest will call this function every time you need to clear suggestions.
   onSuggestionsClearRequested = () => {
-    this.setState({
-      suggestions: [],
-    });
+    this.setState({ suggestions: [] });
   };
 
   render() {
@@ -113,7 +118,7 @@ class Header extends Component {
           <form
             className="searchbar__inputbox"
             role="search"
-            aria-label="Sur cette page"
+            onSubmit={this.onSubmit}
           >
             <Autosuggest
               suggestions={suggestions}
@@ -130,4 +135,12 @@ class Header extends Component {
   }
 }
 
-export default Header;
+Header.propTypes = {
+  suggestions: PropTypes.array.isRequired,
+  listMovies: PropTypes.func.isRequired,
+};
+
+export default connect(
+  mapStateToProps,
+  actions,
+)(Header);

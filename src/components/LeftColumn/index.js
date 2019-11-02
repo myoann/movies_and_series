@@ -1,31 +1,26 @@
 import React, { Component } from "react";
-import MovieDB from "moviedb";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
+import * as actions from "../../actions";
 import "./index.scss";
-const mdb = MovieDB("92b418e837b833be308bbfb1fb2aca1e");
+
+const mapStateToProps = ({ genres }) => ({
+  genres: genres.genres,
+  loading: genres.loading,
+});
 
 class LeftColumn extends Component {
-  state = { genres: null };
+  componentDidMount = () => {
+    const { genres, listGenres } = this.props;
 
-  componentWillMount = async () => {
-    const genres = {};
-    mdb.genreMovieList((err, res) => {
-      res.genres.forEach(genre => {
-        genres[genre.id] = genre.name;
-      });
-
-      this.setState({ genres });
-    });
-  };
-
-  selectCategory = categoryId => {
-    mdb.genreMovies({ id: categoryId }, (err, res) => {
-      console.log(res);
-    });
+    if (!genres.length) {
+      listGenres();
+    }
   };
 
   render() {
-    const { genres } = this.state;
+    const { genres, listMovies } = this.props;
 
     return (
       <div className="leftColumn">
@@ -33,13 +28,13 @@ class LeftColumn extends Component {
 
         {genres && (
           <ul>
-            {Object.keys(genres).map(g => (
+            {Object.keys(genres).map(genreId => (
               <li
                 className="leftColumn__category"
-                key={g}
-                onClick={() => this.selectCategory(g)}
+                key={genreId}
+                onClick={() => listMovies({ genreId })}
               >
-                {genres[g]}
+                {genres[genreId]}
               </li>
             ))}
           </ul>
@@ -49,4 +44,14 @@ class LeftColumn extends Component {
   }
 }
 
-export default LeftColumn;
+LeftColumn.propTypes = {
+  genres: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
+  listGenres: PropTypes.func.isRequired,
+  listMovies: PropTypes.func.isRequired,
+};
+
+export default connect(
+  mapStateToProps,
+  actions,
+)(LeftColumn);

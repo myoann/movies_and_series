@@ -2,8 +2,7 @@ import React, { Component } from "react";
 
 import Header from "./Header";
 import LeftColumn from "./LeftColumn";
-import MainContent from "./MainContent";
-import "./index.scss";
+import Results from "./Results";
 
 class App extends Component {
   render() {
@@ -11,7 +10,7 @@ class App extends Component {
       <div>
         <Header />
         <LeftColumn />
-        <MainContent />
+        <Results />
       </div>
     );
   }
