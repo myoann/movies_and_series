@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import * as actions from "../../actions";
 import "./index.scss";
 
-const mapStateToProps = ({ genres }) => ({
+const mapStateToProps = ({ genres, medias }) => ({
+  genreId: medias.genreId,
   genres: genres.genres,
   loading: genres.loading,
 });
@@ -20,7 +21,7 @@ class LeftColumn extends Component {
   };
 
   render() {
-    const { genres, listMedias } = this.props;
+    const { genreId, genres, listMedias } = this.props;
 
     return (
       <div className="leftColumn">
@@ -28,14 +29,16 @@ class LeftColumn extends Component {
 
         {genres && (
           <ul>
-            {Object.keys(genres).map(genreId => (
+            {Object.keys(genres).map(genre => (
               // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
               <li
-                className="leftColumn__category"
-                key={genreId}
-                onClick={() => listMedias({ genreId })}
+                className={`leftColumn__category ${
+                  genreId === genre ? "leftColumn__category--selected" : ""
+                }`}
+                key={genre}
+                onClick={() => listMedias({ genreId: genre })}
               >
-                {genres[genreId]}
+                {genres[genre]}
               </li>
             ))}
           </ul>
@@ -45,7 +48,12 @@ class LeftColumn extends Component {
   }
 }
 
+LeftColumn.defaultProps = {
+  genreId: null,
+};
+
 LeftColumn.propTypes = {
+  genreId: PropTypes.string,
   genres: PropTypes.object.isRequired,
   listGenres: PropTypes.func.isRequired,
   listMedias: PropTypes.func.isRequired,

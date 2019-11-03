@@ -24,6 +24,10 @@
     margin-bottom: 2px;
 }
 
+.leftColumn__category--selected {
+    font-weight: 700;
+}
+
 @media screen and (max-width: 800px) {
     .leftColumn {
         width: 100px;

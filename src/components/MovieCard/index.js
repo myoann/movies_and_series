@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
@@ -15,9 +15,9 @@ function MovieCard({ movie }) {
   };
 
   return (
-    <div className="movieCard" onClick={() => seeMediaDetails()}>
+    <div className="movieCard" onClick={() => movie.id && seeMediaDetails()}>
       <img
-        alt={`Poster of ${movie.title || movie.name}`}
+        alt={`Poster of ${movie.title || movie.name || "default image"}`}
         src={
           movie.poster_path
             ? `https://image.tmdb.org/t/p/w154/${movie.poster_path}`

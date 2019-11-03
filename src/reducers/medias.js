@@ -10,7 +10,6 @@ const initialState = {
 };
 
 const medias = (state = initialState, action) => {
-  console.log("action", action);
   switch (action.type) {
     case "FIND_MEDIA": {
       return { ...state, error: null };
@@ -35,13 +34,17 @@ const medias = (state = initialState, action) => {
         query,
         isSuggestionOnly,
       } = action;
+
+      let mediasToReturn = [...state.medias, ...mediasList];
+      if (isSuggestionOnly) {
+        mediasToReturn = state.medias;
+      } else if (page === 1) {
+        mediasToReturn = mediasList;
+      }
+
       return {
         ...state,
-        medias: isSuggestionOnly
-          ? state.medias
-          : page === 1
-          ? mediasList
-          : [...state.medias, ...mediasList],
+        medias: mediasToReturn,
         suggestions: isSuggestionOnly ? mediasList : [],
         page,
         totalPages,

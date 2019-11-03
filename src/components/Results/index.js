@@ -43,10 +43,15 @@ class Results extends Component {
             ))}
           </InfiniteScroll>
         ) : (
-          <h1>
-            Choose a category or type a movie / tv show name to start the
-            experience :)
-          </h1>
+          <div className="noResults">
+            <h1>
+              Choose a category or type a movie / tv show name to start the
+              experience :)
+            </h1>
+            {[...Array(5)].map((movie, id) => (
+              <MovieCard key={id} movie={{ title: "" }} />
+            ))}
+          </div>
         )}
       </main>
     );
