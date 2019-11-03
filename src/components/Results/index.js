@@ -43,7 +43,10 @@ class Results extends Component {
             ))}
           </InfiniteScroll>
         ) : (
-          <h1>Aucune data</h1>
+          <h1>
+            Choose a category or type a movie / tv show name to start the
+            experience :)
+          </h1>
         )}
       </main>
     );
