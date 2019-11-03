@@ -91,7 +91,7 @@ class DetailedMovie extends Component {
                 Tagline
               </span>
               <span className="detailedMovieFooter__metadata__section__category__value">
-                {media.tagline}
+                {media.tagline || "N/A"}
               </span>
             </div>
 
@@ -106,43 +106,82 @@ class DetailedMovie extends Component {
               </span>
             </div>
 
-            <div className="detailedMovieFooter__metadata__section__category">
-              <span className="detailedMovieFooter__metadata__section__category__title">
-                Release Year
-              </span>
-              <span className="detailedMovieFooter__metadata__section__category__value">
-                {new Date(media.release_date).getFullYear()}
-              </span>
-            </div>
+            {media.release_date && (
+              <div className="detailedMovieFooter__metadata__section__category">
+                <span className="detailedMovieFooter__metadata__section__category__title">
+                  Release Year
+                </span>
+                <span className="detailedMovieFooter__metadata__section__category__value">
+                  {new Date(media.release_date).getFullYear()}
+                </span>
+              </div>
+            )}
+
+            {media.first_air_date && (
+              <div className="detailedMovieFooter__metadata__section__category">
+                <span className="detailedMovieFooter__metadata__section__category__title">
+                  First Air Year
+                </span>
+                <span className="detailedMovieFooter__metadata__section__category__value">
+                  {new Date(media.first_air_date).getFullYear()}
+                </span>
+              </div>
+            )}
           </section>
 
           <section className="detailedMovieFooter__metadata__section">
             <h3>Details</h3>
 
-            <div className="detailedMovieFooter__metadata__section__category">
-              <span className="detailedMovieFooter__metadata__section__category__title">
-                Language
-              </span>
-              <span className="detailedMovieFooter__metadata__section__category__value">
-                {media.spoken_languages[0].name}
-              </span>
-            </div>
+            {media.spoken_languages && (
+              <div className="detailedMovieFooter__metadata__section__category">
+                <span className="detailedMovieFooter__metadata__section__category__title">
+                  Language
+                </span>
+                <span className="detailedMovieFooter__metadata__section__category__value">
+                  {media.spoken_languages[0].name}
+                </span>
+              </div>
+            )}
 
-            <div className="detailedMovieFooter__metadata__section__category">
-              <span className="detailedMovieFooter__metadata__section__category__title">
-                Runtime
-              </span>
-              <span className="detailedMovieFooter__metadata__section__category__value">
-                {media.runtime}
-              </span>
-            </div>
+            {media.runtime && (
+              <div className="detailedMovieFooter__metadata__section__category">
+                <span className="detailedMovieFooter__metadata__section__category__title">
+                  Runtime
+                </span>
+                <span className="detailedMovieFooter__metadata__section__category__value">
+                  {media.runtime}
+                </span>
+              </div>
+            )}
+
+            {media.number_of_seasons && (
+              <div className="detailedMovieFooter__metadata__section__category">
+                <span className="detailedMovieFooter__metadata__section__category__title">
+                  Seasons
+                </span>
+                <span className="detailedMovieFooter__metadata__section__category__value">
+                  {media.number_of_seasons}
+                </span>
+              </div>
+            )}
+
+            {media.number_of_episodes && (
+              <div className="detailedMovieFooter__metadata__section__category">
+                <span className="detailedMovieFooter__metadata__section__category__title">
+                  Episodes
+                </span>
+                <span className="detailedMovieFooter__metadata__section__category__value">
+                  {media.number_of_episodes}
+                </span>
+              </div>
+            )}
 
             <div className="detailedMovieFooter__metadata__section__category">
               <span className="detailedMovieFooter__metadata__section__category__title">
                 Also known as
               </span>
               <span className="detailedMovieFooter__metadata__section__category__value">
-                {media.original_title}
+                {media.original_title || media.original_name}
               </span>
             </div>
           </section>
@@ -155,7 +194,11 @@ class DetailedMovie extends Component {
                 Budget
               </span>
               <span className="detailedMovieFooter__metadata__section__category__value">
-                {media.budget.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")} $
+                {media.budget
+                  ? `${media.budget
+                      .toFixed(2)
+                      .replace(/\d(?=(\d{3})+\.)/g, "$&,")} $`
+                  : "N/A"}
               </span>
             </div>
 
@@ -164,7 +207,11 @@ class DetailedMovie extends Component {
                 Revenue
               </span>
               <span className="detailedMovieFooter__metadata__section__category__value">
-                {media.revenue.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")} $
+                {media.revenue
+                  ? `${media.revenue
+                      .toFixed(2)
+                      .replace(/\d(?=(\d{3})+\.)/g, "$&,")} $`
+                  : "N/A"}
               </span>
             </div>
           </section>
