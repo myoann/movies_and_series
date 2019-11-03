@@ -7,28 +7,27 @@ import * as actions from "../../actions";
 import MovieCard from "../MovieCard";
 import "./index.scss";
 
-const mapStateToProps = ({ movies }) => ({
-  movies: movies.movies,
-  page: movies.page,
-  totalPages: movies.totalPages,
-  genreId: movies.genreId,
-  query: movies.query,
-  loading: movies.loading,
+const mapStateToProps = ({ medias }) => ({
+  medias: medias.medias,
+  page: medias.page,
+  totalPages: medias.totalPages,
+  genreId: medias.genreId,
+  query: medias.query,
+  loading: medias.loading,
 });
 
 class Results extends Component {
   loadMoreMovies = () => {
-    const { listMovies, page, query, genreId } = this.props;
-    listMovies({ page: page + 1, query, genreId });
+    const { listMedias, page, query, genreId } = this.props;
+    listMedias({ page: page + 1, query, genreId });
   };
 
   render() {
-    const { movies } = this.props;
+    const { medias } = this.props;
 
-    console.log(movies);
     return (
       <main>
-        {movies.length > 0 ? (
+        {medias.length > 0 ? (
           <InfiniteScroll
             pageStart={0}
             loadMore={() => this.loadMoreMovies()}
@@ -39,8 +38,8 @@ class Results extends Component {
               </div>
             }
           >
-            {movies.map(movie => (
-              <MovieCard movie={movie} />
+            {medias.map(movie => (
+              <MovieCard key={movie.id} movie={movie} />
             ))}
           </InfiniteScroll>
         ) : (
@@ -51,10 +50,17 @@ class Results extends Component {
   }
 }
 
+Results.defaultProps = {
+  query: null,
+  genreId: null,
+};
+
 Results.propTypes = {
-  listMovies: PropTypes.func.isRequired,
-  movies: PropTypes.array.isRequired,
-  loading: PropTypes.bool.isRequired,
+  listMedias: PropTypes.func.isRequired,
+  medias: PropTypes.array.isRequired,
+  page: PropTypes.number.isRequired,
+  query: PropTypes.string,
+  genreId: PropTypes.string,
 };
 
 export default connect(

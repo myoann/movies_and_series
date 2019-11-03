@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
 import genres from "./genres";
-import movies from "./movies";
+import medias from "./medias";
 
-export default combineReducers({ genres, movies });
+export default combineReducers({ genres, medias });

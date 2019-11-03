@@ -9,15 +9,20 @@ import defaultImage from "../../assets/images/default-poster.png";
 import * as actions from "../../actions";
 import "./index.scss";
 
-const mapStateToProps = ({ movies }) => ({ suggestions: movies.suggestions });
+const mapStateToProps = ({ medias }) => ({ suggestions: medias.suggestions });
 
 // When suggestion is clicked, Autosuggest needs to populate the input
 // based on the clicked suggestion. Teach Autosuggest how to calculate the
 // input value for every given suggestion.
 const getSuggestionValue = suggestion => suggestion.title || suggestion.name;
 
-const seeMediaDetails = mediaId => {
-  console.log(mediaId);
+const seeMediaDetails = suggestion => {
+  /*const history = useHistory();
+  history.push(`/search?id=${mediaId}&mediaType=${mediaId ? "tv" : "movie"}`);*/
+  // Temporary
+  window.location.href = `/search?id=${suggestion.id}&mediaType=${
+    suggestion.media_type === "movie" ? "movie" : "tv"
+  }`;
 };
 
 const renderSuggestion = (suggestion, { query }) => {
@@ -28,7 +33,7 @@ const renderSuggestion = (suggestion, { query }) => {
   return (
     <span
       className="suggestion-content"
-      onClick={() => seeMediaDetails(suggestion.id)}
+      onClick={() => seeMediaDetails(suggestion)}
     >
       <img
         alt={`Poster of ${suggestionText}`}
@@ -57,34 +62,38 @@ const renderSuggestion = (suggestion, { query }) => {
 };
 
 class Header extends Component {
-  state = {
-    value: "",
-    suggestions: [],
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: "",
+      suggestions: [],
+    };
+  }
 
   componentWillReceiveProps = nextProps => {
     this.setState({ suggestions: nextProps.suggestions });
   };
 
-  onChange = (event, { newValue, method }) => {
+  onChange = (event, { newValue }) => {
     this.setState({ value: newValue });
   };
 
   onSubmit = e => {
     e.preventDefault();
-    const { listMovies } = this.props;
+    const { listMedias } = this.props;
     const { value } = this.state;
 
-    listMovies({ query: value });
+    listMedias({ query: value });
   };
 
   // Autosuggest will call this function every time you need to update suggestions.
   // You already implemented this logic above, so just use it.
   onSuggestionsFetchRequested = async ({ value }) => {
     if (value.length >= 3) {
-      const { listMovies } = this.props;
+      const { listMedias } = this.props;
 
-      listMovies({ query: value, isSuggestionOnly: true });
+      listMedias({ query: value, isSuggestionOnly: true });
     }
   };
 
@@ -102,7 +111,6 @@ class Header extends Component {
       value,
       onChange: this.onChange,
     };
-    console.log(suggestions);
 
     return (
       <header>
@@ -140,7 +148,7 @@ class Header extends Component {
 
 Header.propTypes = {
   suggestions: PropTypes.array.isRequired,
-  listMovies: PropTypes.func.isRequired,
+  listMedias: PropTypes.func.isRequired,
 };
 
 export default connect(

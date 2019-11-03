@@ -20,7 +20,7 @@ class LeftColumn extends Component {
   };
 
   render() {
-    const { genres, listMovies } = this.props;
+    const { genres, listMedias } = this.props;
 
     return (
       <div className="leftColumn">
@@ -29,10 +29,11 @@ class LeftColumn extends Component {
         {genres && (
           <ul>
             {Object.keys(genres).map(genreId => (
+              // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
               <li
                 className="leftColumn__category"
                 key={genreId}
-                onClick={() => listMovies({ genreId })}
+                onClick={() => listMedias({ genreId })}
               >
                 {genres[genreId]}
               </li>
@@ -46,9 +47,8 @@ class LeftColumn extends Component {
 
 LeftColumn.propTypes = {
   genres: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired,
   listGenres: PropTypes.func.isRequired,
-  listMovies: PropTypes.func.isRequired,
+  listMedias: PropTypes.func.isRequired,
 };
 
 export default connect(
