@@ -30,7 +30,6 @@ class DetailedMovie extends Component {
 
   render() {
     const { uniqueMedia: media } = this.props;
-    console.log(media);
 
     return media.id ? (
       <div className="detailedMovie">
