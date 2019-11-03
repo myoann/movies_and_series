@@ -13,7 +13,6 @@ class DetailedMovie extends Component {
   componentDidMount = () => {
     const {
       location: { search },
-      uniqueMedia,
       findMediaById,
     } = this.props;
 
@@ -24,7 +23,7 @@ class DetailedMovie extends Component {
         .replace(/=/g, '":"')}"}`,
     );
 
-    if (!uniqueMedia.id && urlParams.id) {
+    if (urlParams.id) {
       findMediaById({ id: urlParams.id, mediaType: urlParams.mediaType });
     }
   };
