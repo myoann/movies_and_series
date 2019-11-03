@@ -9,6 +9,14 @@ main > div {
 }
 
 main h1 {
+    display: none;
     margin: 0;
     margin-top: 10px;
+}
+
+@media screen and (max-width: 800px) {
+    main > div {
+        top: 115px;
+        left: 175px;
+    }
 }

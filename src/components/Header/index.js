@@ -17,8 +17,8 @@ const mapStateToProps = ({ medias }) => ({ suggestions: medias.suggestions });
 const getSuggestionValue = suggestion => suggestion.title || suggestion.name;
 
 const seeMediaDetails = suggestion => {
-  /*const history = useHistory();
-  history.push(`/search?id=${mediaId}&mediaType=${mediaId ? "tv" : "movie"}`);*/
+  /* const history = useHistory();
+  history.push(`/search?id=${mediaId}&mediaType=${mediaId ? "tv" : "movie"}`); */
   // Temporary
   window.location.href = `/search?id=${suggestion.id}&mediaType=${
     suggestion.media_type === "movie" ? "movie" : "tv"
@@ -114,6 +114,13 @@ class Header extends Component {
 
     return (
       <header>
+        <a href="/" className="homeButton">
+          <img
+            src="https://image.flaticon.com/icons/png/512/18/18625.png"
+            alt="Home"
+          />
+        </a>
+
         <div className="searchbar">
           <span
             className="searchbar__iconbox"
