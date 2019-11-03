@@ -16,6 +16,7 @@ class DetailedMovie extends Component {
       uniqueMedia,
       findMediaById,
     } = this.props;
+
     const urlParams = JSON.parse(
       `{"${decodeURI(search.substring(1))
         .replace(/"/g, '\\"')
@@ -62,23 +63,19 @@ class DetailedMovie extends Component {
           </a>
         )}
 
-        <div className="detailedMovieFooter">
-          <h2>About</h2>
-
-          <div className="reviewCard">
-            <div className="reviewCard__title">
-              <span>{media.title || media.name}</span>
-              <span className="reviewCard__title--sub">
-                <ul className="reviewCard__title--sub--list">
-                  {media.genres.map(genre => (
-                    <li key={genre.id}>{genre.name}</li>
-                  ))}
-                </ul>
-              </span>
-            </div>
-
-            {media.overview}
+        <div className="reviewCard">
+          <div className="reviewCard__title">
+            <span>{media.title || media.name}</span>
+            <span className="reviewCard__title--sub">
+              <ul className="reviewCard__title--sub--list">
+                {media.genres.map(genre => (
+                  <li key={genre.id}>{genre.name}</li>
+                ))}
+              </ul>
+            </span>
           </div>
+
+          {media.overview}
         </div>
 
         <div className="detailedMovieFooter__metadata">

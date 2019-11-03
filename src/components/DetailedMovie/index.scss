@@ -1,3 +1,7 @@
+.detailedMovie {
+    background-color: white;
+}
+
 .detailedMovie img {
     object-fit: cover;
     width: 100%;
@@ -38,21 +42,15 @@
 .detailedMovieFooter, .detailedMovieFooter__metadata {
     margin: 0 auto;
     padding: 0px 40px 32px 40px;
-    background-color: #f0f0f3;
-}
-
-
-.detailedMovieFooter h2 {
-    margin: 0;
-    padding-top: 13px;
-    padding-bottom: 13px;
-    font-size: 18px;
 }
 
 .reviewCard {
     width: 50%;
+    margin: 0;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    font-size: 18px;
     background-color: #fff;
-    padding: 14px 16px;
     border-radius: 12px;
     overflow: hidden;
 }

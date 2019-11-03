@@ -68,11 +68,35 @@ class Header extends Component {
     this.state = {
       value: "",
       suggestions: [],
+      prevScrollpos: window.pageYOffset,
+      visible: true,
     };
+  }
+
+  // Adds an event listener when the component is mount.
+  componentDidMount() {
+    window.addEventListener("scroll", this.handleScroll);
   }
 
   componentWillReceiveProps = nextProps => {
     this.setState({ suggestions: nextProps.suggestions });
+  };
+
+  // Remove the event listener when the component is unmount.
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
+
+  // Hide or show the menu.
+  handleScroll = () => {
+    const { prevScrollpos } = this.state;
+    const currentScrollPos = window.pageYOffset;
+    const visible = prevScrollpos > currentScrollPos;
+
+    this.setState({
+      prevScrollpos: currentScrollPos,
+      visible,
+    });
   };
 
   onChange = (event, { newValue }) => {
@@ -103,7 +127,7 @@ class Header extends Component {
   };
 
   render() {
-    const { value, suggestions } = this.state;
+    const { value, suggestions, visible } = this.state;
 
     // Autosuggest will pass through all these props to the input.
     const inputProps = {
@@ -113,7 +137,7 @@ class Header extends Component {
     };
 
     return (
-      <header>
+      <header className={`header ${!visible ? "header--hidden" : ""}`}>
         <a href="/" className="homeButton">
           <img
             src="https://image.flaticon.com/icons/png/512/18/18625.png"
