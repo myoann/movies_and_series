@@ -17,3 +17,10 @@
     filter: grayscale(40%);
     cursor: pointer;
 }
+
+@media screen and (max-width: 800px) {
+    .movieCard {
+        width: 35%;
+        height: unset;
+    }
+}

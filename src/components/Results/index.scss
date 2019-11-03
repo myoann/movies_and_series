@@ -16,7 +16,8 @@ main h1 {
 
 @media screen and (max-width: 800px) {
     main > div {
-        top: 115px;
-        left: 175px;
+        top: 105px;
+        left: 145px;
+        width: calc(100% - 110px);
     }
 }
