@@ -16,6 +16,7 @@ Each tv show and movie has its own page with its own route to be easily shared w
 You can check out the [Demo online](https://friendly-jang-bae542.netlify.com/).
 
 
+## Available scripts
 
 In the project directory, you can run:
 ### `npm start`
